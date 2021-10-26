@@ -4,14 +4,16 @@ var url = require('url')
 const express = require('express');
 const cors = require('cors')
 
-var PORT = process.argv[2] || 8000;
+var PORT = process.argv[2] || 8000
+global.rootDir = __dirname
 
 const app = express()
 app.use(cors())
+app.use('/_nuxt', express.static(global.rootDir + '/_nuxt'))
 
-var server = http.createServer(function(req, res) {
-  var reqUrl = req.url.substr(1);
-  console.log('==> Making req for' + reqUrl + '\n');
+app.get('/api/*', function (req, res){
+  var reqUrl = req.url.substr(5);
+  console.log('==> Making req for ' + reqUrl + '\n');
 
   req.pause();
 
@@ -22,7 +24,7 @@ var server = http.createServer(function(req, res) {
 
   options.headers['host'] = options.host;
 
-  var connector = (options.protocol == 'https:' ? https : http).request(options, function(serverResponse) {
+  var connector = (options.protocol == 'https:' ? https : http).request(options, function (serverResponse) {
     console.log('<== Received res for ', serverResponse.statusCode, reqUrl);
     console.log('\t-> Request Headers: ', options);
     console.log(' ');
@@ -45,21 +47,21 @@ var server = http.createServer(function(req, res) {
       case 406: case 407: case 408: case 409: case 410: case 411:
       case 412: case 413: case 414: case 415: case 416: case 417: case 418:
         res.writeHeader(serverResponse.statusCode, serverResponse.headers);
-        serverResponse.pipe(res, {end:true});
+        serverResponse.pipe(res, { end: true });
         serverResponse.resume();
-      break;
+        break;
 
       // fix host and pass through.  
       case 301:
       case 302:
       case 303:
         serverResponse.statusCode = 303;
-        serverResponse.headers['location'] = 'http://localhost:'+PORT+'/'+serverResponse.headers['location'];
+        serverResponse.headers['location'] = 'http://localhost:' + PORT + '/' + serverResponse.headers['location'];
         console.log('\t-> Redirecting to ', serverResponse.headers['location']);
         res.writeHeader(serverResponse.statusCode, serverResponse.headers);
-        serverResponse.pipe(res, {end:true});
+        serverResponse.pipe(res, { end: true });
         serverResponse.resume();
-      break;
+        break;
 
       // error everything else
       default:
@@ -69,14 +71,28 @@ var server = http.createServer(function(req, res) {
           'content-type': 'text/plain'
         });
         res.end(process.argv.join(' ') + ':\n\nError ' + serverResponse.statusCode + '\n' + stringifiedHeaders);
-      break;
+        break;
     }
 
     console.log('\n\n');
   });
-  req.pipe(connector, {end:true});
+  req.pipe(connector, { end: true });
   req.resume();
-});
+})
+app.get('/', (req, res) =>{
+  res.sendFile(`${global.rootDir}/index.html`)
+})
 
-console.log('Listening on http://localhost:%s...', PORT);
-server.listen(PORT);
+app.get('/:folder', (req, res) => {
+  let folder = req.params.folder
+  // Replace in camel case
+  folder = folder.replace(/(?:^\w|[A-Z]|\b\w)/g, function(word, index)
+  {
+      return index != 0 ? word.toLowerCase() : word.toUpperCase();
+  }).replace(/\s+/g, '');
+  res.sendFile(`${global.rootDir}/${folder}/index.html`)
+})
+
+app.listen(PORT, () =>{
+  console.log('Listening on http://localhost:%s...', PORT);
+})

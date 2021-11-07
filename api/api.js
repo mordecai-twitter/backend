@@ -22,6 +22,18 @@ router.get('/search/tweets', async (req, res) => {
   }
 })
 
+router.get('/statuses/show/:id', async (req, res) => {
+  const id = req.params.id
+  const query = req.query
+  try{
+    let response = await twitter.v1.get('statuses/show.json', { ...query, id })
+    res.status(200).json(response)
+  }
+  catch (err) {
+    handleError(err, res)
+  }
+})
+
 router.get('/geo/search', async (req, res) => {
   //  rotta per ottenere coordinate dato il luogo
   //  valori ritornati: longitudine/latitudine

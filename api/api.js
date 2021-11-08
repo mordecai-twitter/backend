@@ -39,7 +39,7 @@ router.get('/geo/search', async (req, res) => {
   //  valori ritornati: longitudine/latitudine
   const query = req.query
   try{
-    const geoLocal = await twitter.v1.get('geo/search', { ...query, max_results: '1'})
+    const geoLocal = await twitter.v1.get('geo/search.json', { ...query, max_results: '1'})
     const long = geoLocal.result.places[0].centroid[0]
     const lat = geoLocal.result.places[0].centroid[1]
     res.status(200).json({

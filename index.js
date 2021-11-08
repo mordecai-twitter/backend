@@ -5,12 +5,11 @@ const path = require('path')
 require('dotenv').config({ path: path.resolve(__dirname, './.env') });
 
 const api = require('./api/api')
+const app = express()
+app.use(cors())
 
 var PORT = process.argv[2] || 8000
 global.rootDir = __dirname
-
-const app = express()
-app.use(cors())
 
 app.use('/api/', api)
 

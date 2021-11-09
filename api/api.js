@@ -54,7 +54,6 @@ router.get('/geo/search', async (req, res) => {
 
 router.get('/user/:username', async (req, res) => {
   const username = req.params.username
-  const query = req.query || {}
   try{
     const user = await twitter.v2.userByUsername(username)
     res.status(200).json(user)

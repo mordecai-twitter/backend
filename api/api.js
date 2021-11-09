@@ -6,7 +6,7 @@ var router = express.Router()
 const twitter = new TwitterApi(process.env.TWITTER_API_BEARER_TOKEN).readOnly;
 
 function handleError(err, res){
-  console.log(res.headers)
+  console.log(res.body)
   console.log(err)
   res.status(500).json(err)
 }

@@ -66,6 +66,7 @@ router.get('/user/:username', async (req, res) => {
 router.get('/statuses/user_timeline', async (req, res) => {
   const query = req.query || {}
   try{
+    console.log(process.env)
     const response = await twitter.v1.get('statuses/user_timeline.json', { query })
     res.status(200).json(response)
   } catch (e) {

@@ -6,12 +6,12 @@ var router = express.Router()
 const twitter = new TwitterApi(process.env.TWITTER_API_BEARER_TOKEN).readOnly;
 
 function handleError(err, res){
+  console.log(res.headers)
   console.log(err)
   res.status(500).json(err)
 }
 
 router.get('/search/tweets', async (req, res) => {
-  console.log(req.headers)
   const query = req.query
   try{
     let response = await twitter.v1.get('search/tweets.json', query)
@@ -35,7 +35,6 @@ router.get('/statuses/show/:id', async (req, res) => {
 })
 
 router.get('/geo/search', async (req, res) => {
-  console.log(req.headers)
   //  rotta per ottenere coordinate dato il luogo
   //  valori ritornati: longitudine/latitudine
   const query = req.query
@@ -65,7 +64,6 @@ router.get('/user/:username', async (req, res) => {
 })
 
 router.get('/statuses/user_timeline', async (req, res) => {
-  console.log(req.headers)
   const query = req.query || {}
   try{
     const response = await twitter.v1.get('statuses/user_timeline.json', { query })

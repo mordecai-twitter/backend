@@ -11,6 +11,7 @@ function handleError(err, res){
 }
 
 router.get('/search/tweets', async (req, res) => {
+  console.log(req.headers)
   const query = req.query
   try{
     let response = await twitter.v1.get('search/tweets.json', query)

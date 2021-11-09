@@ -66,4 +66,14 @@ router.get('/user/:username', async (req, res) => {
   }
 })
 
+router.get('user/user_timeline', async (req, res) => {
+  const query = req.query || {}
+  try{
+    const response = await twitter.v1.get('statuses/user_timeline.json', { query })
+    res.status(200).json(response)
+  } catch (e) {
+    handleError(e)
+  }
+})
+
 module.exports = router

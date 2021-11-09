@@ -4,8 +4,6 @@ const express = require('express')
 var router = express.Router()
 
 const twitter = new TwitterApi(process.env.TWITTER_API_BEARER_TOKEN).readOnly;
-console.log(twitter)
-
 
 function handleError(err, res){
   console.log(err)
@@ -36,6 +34,7 @@ router.get('/statuses/show/:id', async (req, res) => {
 })
 
 router.get('/geo/search', async (req, res) => {
+  console.log(req.headers)
   //  rotta per ottenere coordinate dato il luogo
   //  valori ritornati: longitudine/latitudine
   const query = req.query

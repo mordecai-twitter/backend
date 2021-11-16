@@ -85,4 +85,15 @@ router.get('/2/tweets/counts/recent', async (req, res) => {
   }
 })
 
+router.get('geo/id/:place_id', async (req, res) => {
+  const place_id = req.params.place_id
+  console.log(place_id)
+  try{
+    const response = await twitter.v1.get(`geo/id/${place_id}.json`)
+    res.status(200).json(response)
+  } catch (e) {
+    handleError(e, res)
+  }
+})
+
 module.exports = router

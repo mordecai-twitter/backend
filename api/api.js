@@ -74,4 +74,15 @@ router.get('/statuses/user_timeline', async (req, res) => {
   }
 })
 
+router.get('/2/tweets/counts/recent', async (req, res) => {
+  const query = req.query || {}
+  console.log(query)
+  try{
+    const response = await twitter.v2.get('tweets/counts/recent', query)
+    res.status(200).json(response)
+  } catch (e) {
+    handleError(e, res)
+  }
+})
+
 module.exports = router

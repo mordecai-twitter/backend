@@ -116,14 +116,16 @@ router.get('/sentiment', async (req, res) => {
       score: Infinity,
       tweet: {}
     },
-    count: 0
+    positiveCount: 0,
+    negativeCount: 0,
+    neutralCount: 0
   }
   /**
    * Analyze a single tweet
    * @param  {Object} tweet  Tweet object.
    * @param  {Object} valutation   Valutation Object.
    */
-  function analyzeTweet(tweet, valutation){
+  function analyzeTweet(tweet){
     // Text pre-processing (removing "@", "#" for a better analysis of tweets)
     const regExHash = new RegExp('#', "g")
     const regExTag = new RegExp('@', "g")
@@ -131,6 +133,15 @@ router.get('/sentiment', async (req, res) => {
     toAnalyze = tweet.text.replace(regExTag, "")
     try {
       const evalTweet = sentiment(toAnalyze, tweet.lang)
+      switch (evalTweet.category) {
+        case 'neutral':
+          valutation.neutralCount += 1
+          break;
+        case 'negative':
+          valutation.negativeCount += 1
+        case 'positive':
+          valutation.positiveCount += 1
+      }
       // console.log(evalTweet)
       valutation.score += evalTweet.score
       if(evalTweet.score > valutation.best.score){
@@ -144,7 +155,6 @@ router.get('/sentiment', async (req, res) => {
       valutation.comparative += evalTweet.comparative
       valutation.negative.push(...evalTweet.negative)
       valutation.positive.push(...evalTweet.positive)
-      valutation.count += 1
       // console.log(evalTweet.calculation)
     } catch (e) {
       // Error occure, ignoring this tweet

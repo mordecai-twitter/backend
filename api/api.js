@@ -164,7 +164,7 @@ router.get('/sentiment', async (req, res) => {
   }
   try {
     const timeline = await twitter.v2.search(query, { ...parameters, "tweet.fields": "lang" })
-    await timeline.fetchLast(200)
+    await timeline.fetchLast(100)
     for (let tweet of timeline) {
       if(tweet.lang !== "und")  analyzeTweet(tweet, valutation)
     }

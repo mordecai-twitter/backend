@@ -165,7 +165,7 @@ router.get('/sentiment', async (req, res) => {
     const timeline = await twitter.v2.search(query, { ...parameters, "tweet.fields": "lang" })
     await timeline.fetchLast(200)
     for (let tweet of timeline) {
-      analyzeTweet(tweet, valutation)
+      if(tweet.lang)  analyzeTweet(tweet, valutation)
     }
     valutation.comparative = valutation.comparative / valutation.count
     res.status(200).json(valutation)

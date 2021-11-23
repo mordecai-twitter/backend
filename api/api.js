@@ -125,7 +125,6 @@ router.get('/sentiment', async (req, res) => {
    * @param  {Object} tweet  Tweet object.
    * @param  {Object} valutation   Valutation Object.
    */
-   let i = 0;
   function analyzeTweet(tweet){
     // Text pre-processing (removing "@", "#" for a better analysis of tweets)
     const regExHash = new RegExp('#', "g")

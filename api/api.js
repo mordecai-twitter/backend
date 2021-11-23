@@ -106,8 +106,8 @@ router.get('/sentiment', async (req, res) => {
   let valutation = {
     score: 0,
     comparative: 0,
-    positive: [],
-    negative: [],
+    // positive: [],
+    // negative: [],
     best: {
       score: -Infinity,
       tweet: {}
@@ -125,22 +125,24 @@ router.get('/sentiment', async (req, res) => {
    * @param  {Object} tweet  Tweet object.
    * @param  {Object} valutation   Valutation Object.
    */
+   let i = 0;
   function analyzeTweet(tweet){
     // Text pre-processing (removing "@", "#" for a better analysis of tweets)
     const regExHash = new RegExp('#', "g")
     const regExTag = new RegExp('@', "g")
-    let toAnalyze = tweet.text.replace(regExHash, "")
-    toAnalyze = tweet.text.replace(regExTag, "")
+    let toAnalyze = tweet.text.replace(regExHash, "").replace(regExTag, "")
     try {
       const evalTweet = sentiment(toAnalyze, tweet.lang)
       switch (evalTweet.category) {
         case 'neutral':
           valutation.neutralCount += 1
-          break;
+          break
         case 'negative':
           valutation.negativeCount += 1
+          break
         case 'positive':
           valutation.positiveCount += 1
+          break
       }
       // console.log(evalTweet)
       valutation.score += evalTweet.score
@@ -153,12 +155,11 @@ router.get('/sentiment', async (req, res) => {
         valutation.worst.score = evalTweet.score
       }
       valutation.comparative += evalTweet.comparative
-      valutation.negative.push(...evalTweet.negative)
-      valutation.positive.push(...evalTweet.positive)
-      // console.log(evalTweet.calculation)
+      // do we need this?
+      // valutation.negative.push(...evalTweet.negative)
+      // valutation.positive.push(...evalTweet.positive)
     } catch (e) {
-      // Error occure, ignoring this tweet
-      console.log(tweet.lang)
+      // Error occure, ignoring this tweet (logging error for debug: )
       console.log(e)
     }
   }
@@ -168,7 +169,7 @@ router.get('/sentiment', async (req, res) => {
     for (let tweet of timeline) {
       if(tweet.lang !== "und")  analyzeTweet(tweet)
     }
-    valutation.comparative = valutation.comparative / valutation.count
+    valutation.comparative = valutation.comparative / (valutation.positiveCount + valutation.negativeCount + valutation.neutralCount)
     res.status(200).json(valutation)
   }
   catch (err) {

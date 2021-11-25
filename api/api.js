@@ -14,6 +14,18 @@ function handleError(err, res){
   res.status(500).json(err)
 }
 
+router.get('/2/tweets/search/all', async (req, res) => {
+  const query = req.query
+  console.log(query)
+  try{
+    let response = await twitter.v2.get('tweets/search/all', query)
+    res.status(200).json(response)
+  }
+  catch (err) {
+    handleError(err, res)
+  }
+})
+
 router.get('/search/tweets', async (req, res) => {
   const query = req.query
   try{

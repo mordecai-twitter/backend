@@ -27,6 +27,11 @@
     "mime-types" "~2.1.24"
     "negotiator" "0.6.2"
 
+"anglicize@^1.0.0":
+  "integrity" "sha1-VcYlRVfjfyMMr6VKjbgkVmZdBb8="
+  "resolved" "https://registry.npmjs.org/anglicize/-/anglicize-1.0.0.tgz"
+  "version" "1.0.0"
+
 "ansi-align@^3.0.0":
   "integrity" "sha512-IOfwwBF5iczOjp/WeY4YxyjqAFMQoZufdQWDd19SEExbVLNXqvpzSJ/M7Za4/sCPmQ0+GRquoA7bGcINcxew6w=="
   "resolved" "https://registry.npmjs.org/ansi-align/-/ansi-align-3.0.1.tgz"
@@ -305,6 +310,11 @@
   "resolved" "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
   "version" "1.1.1"
 
+"email-regex@^4.0.0":
+  "integrity" "sha512-OxR2NqoYS3ZikqOkju2krRTyxngwjJ5Wh4yalpTqbBnUOr+LLwwjY2x5Sksruw6TieyQDswE5Pc83Eh6RQj3GA=="
+  "resolved" "https://registry.npmjs.org/email-regex/-/email-regex-4.0.0.tgz"
+  "version" "4.0.0"
+
 "emoji-regex@^8.0.0":
   "integrity" "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A=="
   "resolved" "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz"
@@ -327,6 +337,11 @@
   dependencies:
     "once" "^1.4.0"
 
+"ent@^2.2.0":
+  "integrity" "sha1-6WQhkyWiHQX0RGai9obtbOX13R0="
+  "resolved" "https://registry.npmjs.org/ent/-/ent-2.2.0.tgz"
+  "version" "2.2.0"
+
 "escape-goat@^2.0.0":
   "integrity" "sha512-8/uIhbG12Csjy2JEW7D9pHbreaVaS/OpN3ycnyvElTdwM5n6GY6W6e2IPemfvGZeUMqZ9A/3GqIZMgKnBhAw/Q=="
   "resolved" "https://registry.npmjs.org/escape-goat/-/escape-goat-2.1.1.tgz"
@@ -336,6 +351,11 @@
   "integrity" "sha1-Aljq5NPQwJdN4cFpGI7wBR0dGYg="
   "resolved" "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz"
   "version" "1.0.3"
+
+"escape-string-regexp@^4.0.0":
+  "integrity" "sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA=="
+  "resolved" "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz"
+  "version" "4.0.0"
 
 "etag@~1.8.1":
   "integrity" "sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc="
@@ -807,6 +827,11 @@
   "resolved" "https://registry.npmjs.org/path-to-regexp/-/path-to-regexp-0.1.7.tgz"
   "version" "0.1.7"
 
+"phone-regex@^2.1.0":
+  "integrity" "sha512-9lXTghLpr/jU6Dx9JIacAUt3Hl7qVucW8+Iqwx99dvFSO9imlB2xvY6IyT6Sw554QTtHMnhvPUygGaN5k0pv9Q=="
+  "resolved" "https://registry.npmjs.org/phone-regex/-/phone-regex-2.1.0.tgz"
+  "version" "2.1.0"
+
 "picomatch@^2.0.4", "picomatch@^2.2.1":
   "integrity" "sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw=="
   "resolved" "https://registry.npmjs.org/picomatch/-/picomatch-2.3.0.tgz"
@@ -991,6 +1016,11 @@
   "resolved" "https://registry.npmjs.org/statuses/-/statuses-1.5.0.tgz"
   "version" "1.5.0"
 
+"stopword@^1.0.0":
+  "integrity" "sha512-rMBuk91/PTdV7GpVIwlZRLGcmZ9OMbTM+KXJN19oKIkgns+EhTVEzXfb4q8/v4ExuoGxNSBSHmuzt+DUijuQqQ=="
+  "resolved" "https://registry.npmjs.org/stopword/-/stopword-1.0.11.tgz"
+  "version" "1.0.11"
+
 "string-width@^4.0.0", "string-width@^4.1.0", "string-width@^4.2.2":
   "integrity" "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=="
   "resolved" "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz"
@@ -1012,6 +1042,11 @@
   "resolved" "https://registry.npmjs.org/strip-json-comments/-/strip-json-comments-2.0.1.tgz"
   "version" "2.0.1"
 
+"striptags@^3.1.1":
+  "integrity" "sha512-g45ZOGzHDMe2bdYMdIvdAfCQkCTDMGBazSw1ypMowwGIee7ZQ5dU0rBJ8Jqgl+jAKIv4dbeE1jscZq9wid1Tkw=="
+  "resolved" "https://registry.npmjs.org/striptags/-/striptags-3.2.0.tgz"
+  "version" "3.2.0"
+
 "supports-color@^5.5.0":
   "integrity" "sha512-QjVjwdXIt408MIiAqCX4oUKsgU2EqAGzs2Ppkm4aQYbjm+ZEWEcW4SfFNTr4uMNZma0ey4f5lgLrkB0aX0QMow=="
   "resolved" "https://registry.npmjs.org/supports-color/-/supports-color-5.5.0.tgz"
@@ -1025,6 +1060,19 @@
   "version" "7.2.0"
   dependencies:
     "has-flag" "^4.0.0"
+
+"text-cleaner@^1.2.1":
+  "integrity" "sha512-9ISb+qbRcN/fztyh8mhYN4bHwBO2kP49PZBZa9upztNbDSaNDE1iFqcPbgSaeUk2XCq1fzcIw5hu31g5YKg3QA=="
+  "resolved" "https://registry.npmjs.org/text-cleaner/-/text-cleaner-1.2.1.tgz"
+  "version" "1.2.1"
+  dependencies:
+    "anglicize" "^1.0.0"
+    "email-regex" "^4.0.0"
+    "ent" "^2.2.0"
+    "escape-string-regexp" "^4.0.0"
+    "phone-regex" "^2.1.0"
+    "stopword" "^1.0.0"
+    "striptags" "^3.1.1"
 
 "to-readable-stream@^1.0.0":
   "integrity" "sha512-Iq25XBt6zD5npPhlLVXGFN3/gyR2/qODcKNNyTMd4vbm39HUaOiAM4PMq0eMVC/Tkxz+Zjdsc55g9yyz+Yq00Q=="

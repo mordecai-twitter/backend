@@ -1,5 +1,8 @@
 const TwitterApi = require('twitter-api-v2').TwitterApi
 
+// Sentiment analysis
+var sentiment = require('multilang-sentiment');
+
 const express = require('express')
 var router = express.Router()
 
@@ -93,6 +96,84 @@ router.get('/geo/id/:place_id', async (req, res) => {
     res.status(200).json(response)
   } catch (e) {
     handleError(e, res)
+  }
+})
+
+router.get('/sentiment', async (req, res) => {
+
+  const { query, ...parameters } = req.query
+  console.log(query, parameters)
+  let valutation = {
+    score: 0,
+    comparative: 0,
+    // positive: [],
+    // negative: [],
+    best: {
+      score: -Infinity,
+      tweet: {}
+    },
+    worst: {
+      score: Infinity,
+      tweet: {}
+    },
+    positiveCount: 0,
+    negativeCount: 0,
+    neutralCount: 0
+  }
+  /**
+   * Analyze a single tweet
+   * @param  {Object} tweet  Tweet object.
+   * @param  {Object} valutation   Valutation Object.
+   */
+  function analyzeTweet(tweet){
+    // Text pre-processing (removing "@", "#" for a better analysis of tweets)
+    const regExHash = new RegExp('#', "g")
+    const regExTag = new RegExp('@', "g")
+    let toAnalyze = tweet.text.replace(regExHash, "").replace(regExTag, "")
+    try {
+      const evalTweet = sentiment(toAnalyze, tweet.lang)
+      switch (evalTweet.category) {
+        case 'neutral':
+          valutation.neutralCount += 1
+          break
+        case 'negative':
+          valutation.negativeCount += 1
+          break
+        case 'positive':
+          valutation.positiveCount += 1
+          break
+      }
+      // console.log(evalTweet)
+      valutation.score += evalTweet.score
+      if(evalTweet.score > valutation.best.score){
+        valutation.best.score = evalTweet.score
+        valutation.best.tweet = tweet
+      }
+      else if(evalTweet.score < valutation.worst.score){
+        valutation.worst.tweet = tweet
+        valutation.worst.score = evalTweet.score
+      }
+      valutation.comparative += evalTweet.comparative
+      // do we need this?
+      // valutation.negative.push(...evalTweet.negative)
+      // valutation.positive.push(...evalTweet.positive)
+    } catch (e) {
+      // Error occure, ignoring this tweet (logging error for debug: )
+      console.log(e)
+    }
+  }
+  try {
+    const timeline = await twitter.v2.search(query, { ...parameters, "tweet.fields": "lang" })
+    await timeline.fetchLast(100)
+    for (let tweet of timeline) {
+      if(tweet.lang !== "und")  analyzeTweet(tweet)
+    }
+    valutation.comparative = valutation.comparative / (valutation.positiveCount + valutation.negativeCount + valutation.neutralCount)
+    res.status(200).json(valutation)
+  }
+  catch (err) {
+    console.log(err)
+    res.status(500).json(err)
   }
 })
 

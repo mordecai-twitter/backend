@@ -78,6 +78,18 @@ router.get('/user/:username', async (req, res) => {
   }
 })
 
+router.get('/2/user/:id', async (req, res) => {
+  const userId = req.params.id
+  const query = req.query
+  try{
+    const user = await twitter.v2.user(userId, query)
+    res.status(200).json(user)
+  }
+  catch (err){
+    handleError(err, res)
+  }
+})
+
 router.get('/statuses/user_timeline', async (req, res) => {
   const query = req.query || {}
   try{

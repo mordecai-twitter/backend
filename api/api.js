@@ -7,6 +7,12 @@ const express = require('express')
 var router = express.Router()
 
 const twitter = new TwitterApi(process.env.TWITTER_API_BEARER_TOKEN).readOnly;
+const secondaryTwitter = new TwitterApi({
+  appKey: process.env.TWITTER_API_APP_KEY,
+  appSecret: process.env.TWITTER_API_APP_SECRET,
+  accessToken: process.env.TWITTER_API_ACCESS_TOKEN,
+  accessSecret: process.env.TWITTER_API_ACCESS_SECRET
+})
 
 function handleError(err, res){
   console.log(res.body)
@@ -97,6 +103,30 @@ router.get('/geo/id/:place_id', async (req, res) => {
   } catch (e) {
     handleError(e, res)
   }
+})
+
+router.get('/stream', async (req, res) => {
+    const query = req.query || {}
+    console.log(query)
+    const { user, keywords, locations } = query;
+
+    secondaryTwitter.v1.filterStream(
+        {
+            track: keywords,
+            locations: locations,
+            follow: user
+        },
+        (err, stream) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            stream.on('data', data => {
+                console.log(data);
+                res.status(200).json(data)
+            });
+        }
+    );
 })
 
 router.get('/sentiment', async (req, res) => {

@@ -105,30 +105,6 @@ router.get('/geo/id/:place_id', async (req, res) => {
   }
 })
 
-router.get('/stream', async (req, res) => {
-    const query = req.query || {}
-    console.log(query)
-    const { user, keywords, locations } = query;
-
-    secondaryTwitter.v1.filterStream(
-        {
-            track: keywords,
-            locations: locations,
-            follow: user
-        },
-        (err, stream) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            stream.on('data', data => {
-                console.log(data);
-                res.status(200).json(data)
-            });
-        }
-    );
-})
-
 router.get('/sentiment', async (req, res) => {
 
   const { query, ...parameters } = req.query
@@ -206,5 +182,96 @@ router.get('/sentiment', async (req, res) => {
     res.status(500).json(err)
   }
 })
+
+router.get('/termcloud', async (req, res) => {
+  const tweetCount = 200
+  const wordCount = 50
+  const minWordLength = 3
+  const { query, ...parameters } = req.query
+
+  function cleanText(text) {
+    // Regex that match puctuation characters, the special characters … used by twitter
+    const excludedCharRegex = /(\.|,|-|:|\.{3}|…)/g
+
+    // It transforms the text to lower case, strip html tag, condense multiple spaces in one,
+    // remove stop words such as the, some, with, and then remove characters from the regex
+    return TextCleaner(text).toLowerCase().stripHtml().condense().removeStopWords()
+                            .trim().replace(excludedCharRegex, '');
+  }
+
+  function calculateWordsFrequency(words){
+    const wordCounts = {};
+    for(let i = 0; i < words.length; i++){
+      wordCounts[words[i]] = (wordCounts[words[i]] || 0) + 1
+    }
+    return wordCounts
+  }
+
+  function sortDictionaryByValue(dict, limit) {
+    // Create items array
+    let items = Object.keys(dict).map(function(key) {
+      return [key, dict[key]];
+    });
+
+    // Sort the array based on the second element
+    items.sort(function(first, second) {
+      return second[1] - first[1];
+    });
+    items = items.splice(0, limit);
+
+    const sortedObj = []
+    items.forEach(elem => {
+        const obj = {
+          word: elem[0],
+          freq: elem[1]
+        }
+
+        sortedObj.push(obj);
+    })
+
+    return sortedObj;
+  }
+
+  try {
+
+    const timeline = await twitter.v2.search(query, { ...parameters})
+    const tweets = (await timeline.fetchLast(tweetCount)).tweets
+
+    const texts = tweets.map(x => x.text)
+    const arrayOfWords = texts.map(x => x.split(/\s/))
+    const words = arrayOfWords.flat(1)
+    const cleanedWords = words.map(x => cleanText(x)).filter(x => x.length > minWordLength)
+    const frequency = calculateWordsFrequency(cleanedWords)
+    const sortedFrequency = sortDictionaryByValue(frequency, wordCount)
+    res.status(200).json(sortedFrequency)
+  } catch (error) {
+    handleError(error, res)
+  }
+})
+
+router.get('/stream', async (req, res) => {
+    const query = req.query || {}
+    console.log(query)
+    const { user, keywords, locations } = query;
+
+    secondaryTwitter.v1.filterStream(
+        {
+            track: keywords,
+            locations: locations,
+            follow: user
+        },
+        (err, stream) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            stream.on('data', data => {
+                console.log(data);
+                res.status(200).json(data)
+            });
+        }
+    );
+})
+
 
 module.exports = router

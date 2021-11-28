@@ -1,4 +1,5 @@
 const TwitterApi = require('twitter-api-v2').TwitterApi
+const TextCleaner = require('text-cleaner')
 
 // Sentiment analysis
 var sentiment = require('multilang-sentiment');
@@ -9,10 +10,21 @@ var router = express.Router()
 const twitter = new TwitterApi(process.env.TWITTER_API_BEARER_TOKEN).readOnly;
 
 function handleError(err, res){
-  console.log(res.body)
   console.log(err)
   res.status(500).json(err)
 }
+
+router.get('/2/tweets/search/all', async (req, res) => {
+  const query = req.query
+  console.log(query)
+  try{
+    let response = await twitter.v2.get('tweets/search/all', query)
+    res.status(200).json(response)
+  }
+  catch (err) {
+    handleError(err, res)
+  }
+})
 
 router.get('/search/tweets', async (req, res) => {
   const query = req.query
@@ -66,9 +78,20 @@ router.get('/user/:username', async (req, res) => {
   }
 })
 
+router.get('/2/user/:id', async (req, res) => {
+  const userId = req.params.id
+  const query = req.query
+  try{
+    const user = await twitter.v2.user(userId, query)
+    res.status(200).json(user)
+  }
+  catch (err){
+    handleError(err, res)
+  }
+})
+
 router.get('/statuses/user_timeline', async (req, res) => {
   const query = req.query || {}
-  console.log(query)
   try{
     const response = await twitter.v1.get('statuses/user_timeline.json', query)
     res.status(200).json(response)
@@ -79,7 +102,6 @@ router.get('/statuses/user_timeline', async (req, res) => {
 
 router.get('/2/tweets/counts/recent', async (req, res) => {
   const query = req.query || {}
-  console.log(query)
   try{
     const response = await twitter.v2.get('tweets/counts/recent', query)
     res.status(200).json(response)
@@ -90,7 +112,6 @@ router.get('/2/tweets/counts/recent', async (req, res) => {
 
 router.get('/geo/id/:place_id', async (req, res) => {
   const place_id = req.params.place_id
-  console.log(place_id)
   try{
     const response = await twitter.v1.get(`geo/id/${place_id}.json`)
     res.status(200).json(response)
@@ -102,7 +123,9 @@ router.get('/geo/id/:place_id', async (req, res) => {
 router.get('/sentiment', async (req, res) => {
 
   const { query, ...parameters } = req.query
+  console.log("\n\nSENTIMENT query and parameters")
   console.log(query, parameters)
+  console.log("\n\n")
   let valutation = {
     score: 0,
     comparative: 0,
@@ -143,7 +166,6 @@ router.get('/sentiment', async (req, res) => {
           valutation.positiveCount += 1
           break
       }
-      // console.log(evalTweet)
       valutation.score += evalTweet.score
       if(evalTweet.score > valutation.best.score){
         valutation.best.score = evalTweet.score
@@ -174,6 +196,72 @@ router.get('/sentiment', async (req, res) => {
   catch (err) {
     console.log(err)
     res.status(500).json(err)
+  }
+})
+
+router.get('/termcloud', async (req, res) => {
+  const tweetCount = 200
+  const wordCount = 50
+  const minWordLength = 3
+  const { query, ...parameters } = req.query
+
+  function cleanText(text) {
+    // Regex that match puctuation characters, the special characters … used by twitter
+    const excludedCharRegex = /(\.|,|-|:|\.{3}|…)/g
+
+    // It transforms the text to lower case, strip html tag, condense multiple spaces in one,
+    // remove stop words such as the, some, with, and then remove characters from the regex
+    return TextCleaner(text).toLowerCase().stripHtml().condense().removeStopWords()
+                            .trim().replace(excludedCharRegex, '');
+  }
+
+  function calculateWordsFrequency(words){
+    const wordCounts = {};
+    for(let i = 0; i < words.length; i++){
+      wordCounts[words[i]] = (wordCounts[words[i]] || 0) + 1
+    }
+    return wordCounts
+  }
+
+  function sortDictionaryByValue(dict, limit) {
+    // Create items array
+    let items = Object.keys(dict).map(function(key) {
+      return [key, dict[key]];
+    });
+
+    // Sort the array based on the second element
+    items.sort(function(first, second) {
+      return second[1] - first[1];
+    });
+    items = items.splice(0, limit);
+
+    const sortedObj = []
+    items.forEach(elem => {
+        const obj = {
+          word: elem[0],
+          freq: elem[1]
+        }
+
+        sortedObj.push(obj);
+    })
+
+    return sortedObj;
+  }
+
+  try {
+
+    const timeline = await twitter.v2.search(query, { ...parameters})
+    const tweets = (await timeline.fetchLast(tweetCount)).tweets
+
+    const texts = tweets.map(x => x.text)
+    const arrayOfWords = texts.map(x => x.split(/\s/))
+    const words = arrayOfWords.flat(1)
+    const cleanedWords = words.map(x => cleanText(x)).filter(x => x.length > minWordLength)
+    const frequency = calculateWordsFrequency(cleanedWords)
+    const sortedFrequency = sortDictionaryByValue(frequency, wordCount)
+    res.status(200).json(sortedFrequency)
+  } catch (error) {
+    handleError(error, res)
   }
 })
 

@@ -203,6 +203,7 @@ router.get('/termcloud', async (req, res) => {
   const tweetCount = 200
   const wordCount = 50
   const minWordLength = 3
+  const maxWordLength = 30
   const { query, ...parameters } = req.query
 
   function cleanText(text) {
@@ -256,7 +257,7 @@ router.get('/termcloud', async (req, res) => {
     const texts = tweets.map(x => x.text)
     const arrayOfWords = texts.map(x => x.split(/\s/))
     const words = arrayOfWords.flat(1)
-    const cleanedWords = words.map(x => cleanText(x)).filter(x => x.length > minWordLength)
+    const cleanedWords = words.map(x => cleanText(x)).filter(x => (x.length > minWordLength) && (x.length < maxWordLength))
     const frequency = calculateWordsFrequency(cleanedWords)
     const sortedFrequency = sortDictionaryByValue(frequency, wordCount)
     res.status(200).json(sortedFrequency)

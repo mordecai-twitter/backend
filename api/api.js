@@ -282,7 +282,14 @@ router.get('/stream', async (req, res) => {
 
     if (user) {
       const fullUserData = await twitter.v2.userByUsername(user);
-      renamedQuery.follow = fullUserData.data.id;
+      if (fullUserData?.data) {
+        renamedQuery.follow = fullUserData.data.id;
+      }
+      else {
+        res.send(JSON.stringify({
+          error: 'Username not found'
+        }))
+      }
     }
     if (locations) {
       const [left, bottom, right, top] = locations.split(',').map(value => parseFloat(value));

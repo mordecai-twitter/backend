@@ -1,5 +1,6 @@
 const TwitterApi = require('twitter-api-v2').TwitterApi
 const TextCleaner = require('text-cleaner')
+const ETwitterStreamEvent = require('twitter-api-v2').ETwitterStreamEvent
 
 // Sentiment analysis
 var sentiment = require('multilang-sentiment');
@@ -8,6 +9,12 @@ const express = require('express')
 var router = express.Router()
 
 const twitter = new TwitterApi(process.env.TWITTER_API_BEARER_TOKEN).readOnly;
+const secondaryTwitter = new TwitterApi({
+  appKey: process.env.TWITTER_API_APP_KEY,
+  appSecret: process.env.TWITTER_API_APP_SECRET,
+  accessToken: process.env.TWITTER_API_ACCESS_TOKEN,
+  accessSecret: process.env.TWITTER_API_ACCESS_SECRET
+})
 
 function handleError(err, res){
   console.log(err)
@@ -265,5 +272,48 @@ router.get('/termcloud', async (req, res) => {
     handleError(error, res)
   }
 })
+
+router.get('/stream', async (req, res) => {
+    const query = req.query || {}
+    console.log('Original query:', query)
+    const { user, keywords, locations } = query;
+
+    const renamedQuery = {};
+
+    if (user) {
+      const fullUserData = await twitter.v2.userByUsername(user);
+      renamedQuery.follow = fullUserData.data.id;
+    }
+    if (locations) {
+      const [left, bottom, right, top] = locations.split(',').map(value => parseFloat(value));
+      renamedQuery.locations = [{lng: left, lat: bottom}, {lng: right, lat: top}];
+    }
+    if (keywords) {
+      renamedQuery.track = keywords;
+    }
+
+    console.log('Processed query:', renamedQuery);
+
+    const stream = await secondaryTwitter.v1.filterStream(
+        renamedQuery
+    );
+
+    stream.on(ETwitterStreamEvent.Data, (tweet) => {
+      if (!locations || (tweet.coordinates || tweet.place)) {
+        res.write(JSON.stringify(tweet))
+      }
+    })
+
+    stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
+    stream.on(
+      ETwitterStreamEvent.ConnectionClosed,
+      () => res.end()
+    );
+
+    req.on('close', () => {
+      stream.close();
+    });
+})
+
 
 module.exports = router

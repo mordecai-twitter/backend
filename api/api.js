@@ -292,8 +292,13 @@ router.get('/stream', async (req, res) => {
       }
     }
     if (locations) {
-      const [left, bottom, right, top] = locations.split(',').map(value => parseFloat(value));
-      renamedQuery.locations = [{lng: left, lat: bottom}, {lng: right, lat: top}];
+      try {
+        const [left, bottom, right, top] = locations.split(',').map(value => parseFloat(value));
+        renamedQuery.locations = [{lng: left, lat: bottom}, {lng: right, lat: top}];
+      }
+      catch (error) {
+        res.send(JSON.stringify({ error }));
+      }
     }
     if (keywords) {
       renamedQuery.track = keywords;

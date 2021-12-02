@@ -282,7 +282,7 @@ router.get('/stream', async (req, res) => {
 
     if (user) {
       const fullUserData = await twitter.v2.userByUsername(user);
-      if (fullUserData?.data) {
+      if (fullUserData.data && fullUserData.data.id) {
         renamedQuery.follow = fullUserData.data.id;
       }
       else {
@@ -301,7 +301,10 @@ router.get('/stream', async (req, res) => {
       }
     }
     if (keywords) {
-      renamedQuery.track = keywords;
+      const regExHash = new RegExp('#', "g")
+      const regExTag = new RegExp('@', "g")
+      let regExReduced = keywords.replace(regExTag, "").replace(regExHash, "")
+      renamedQuery.track = regExReduced;
     }
 
     console.log('Processed query:', renamedQuery);

@@ -17,13 +17,14 @@ const secondaryTwitter = new TwitterApi({
 })
 
 function handleError(err, res){
-  console.log(err)
+  // Check if the code is running because of test, if it is it doesn't print the error
+  if(process.env.NODE_ENV  === undefined)
+    console.log(err)
   res.status(500).json(err)
 }
 
 router.get('/2/tweets/search/all', async (req, res) => {
   const query = req.query
-  console.log(query)
   try{
     let response = await twitter.v2.get('tweets/search/all', query)
     res.status(200).json(response)
@@ -201,8 +202,7 @@ router.get('/sentiment', async (req, res) => {
     res.status(200).json(valutation)
   }
   catch (err) {
-    console.log(err)
-    res.status(500).json(err)
+    handleError(err, res)
   }
 })
 

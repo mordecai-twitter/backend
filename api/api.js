@@ -333,7 +333,7 @@ router.get('/stream', async (req, res) => {
 router.get('/contest', async (req, res) => {
   const { query, ...parameters } = req.query
   try {
-    const all = await twitter.v2.search(query)
+    const all = await twitter.v2.search(query, { ...parameters })
     await all.fetchLast(10000)
     res.status(200).json(all._realData)
   } catch (err) {

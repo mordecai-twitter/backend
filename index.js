@@ -8,7 +8,6 @@ const api = require('./api/api')
 const app = express()
 app.use(cors())
 
-var PORT = process.argv[2] || 8000
 global.rootDir = __dirname
 
 app.use('/api/', api)
@@ -29,6 +28,5 @@ app.get('/:folder', (req, res) => {
   res.sendFile(`${global.rootDir}/${folder}/index.html`)
 })
 
-app.listen(PORT, () =>{
-  console.log('Listening on port :%s...', PORT);
-})
+// For testing purposes
+module.exports = app

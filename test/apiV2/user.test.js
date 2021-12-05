@@ -9,7 +9,6 @@ describe(endPointUrl + ' endpoint', () => {
     // NOTE: Non andrebbe fatto, ma facendo troppe richieste si rischia di ricevere 'Too Many request'
     beforeAll(async () => {
       response = await request.assertApiRequest(endPointUrl + userID, {})
-      console.log(response.body)
     })
 
     it('It should return 200 as status code when the request is correct', () => {
@@ -22,6 +21,10 @@ describe(endPointUrl + ' endpoint', () => {
       expect(response.body.data).toHaveProperty('name')
       expect(response.body.data).toHaveProperty('username')
 
+    })
+
+    it('It should return the data about the user of the query', () => {
+      expect(response.body.data.id).toBe(userID)
     })
   })
 

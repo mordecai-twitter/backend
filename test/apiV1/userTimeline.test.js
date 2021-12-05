@@ -4,9 +4,10 @@ const endPointUrl = 'statuses/user_timeline'
 describe(endPointUrl + ' endpoint', () => {
   describe('Positive Test', () => {
     let response = {}
+    const user_id = 6253282
+
     // NOTE: Non andrebbe fatto, ma facendo troppe richieste si rischia di ricevere 'Too Many request'
     beforeAll(async () => {
-      const user_id = 6253282
       response = await request.assertApiRequest(endPointUrl, {user_id: user_id})
     })
 
@@ -24,6 +25,12 @@ describe(endPointUrl + ' endpoint', () => {
         expect(elem).toHaveProperty("id")
         expect(elem).toHaveProperty("created_at")
         expect(elem).toHaveProperty("user")
+      });
+    })
+
+    it('Each tweet must be created by the user of the query', () => {
+      response.body.forEach(elem => {
+        expect(elem.user.id).toBe(user_id)
       });
     })
 

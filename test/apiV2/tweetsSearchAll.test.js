@@ -1,5 +1,6 @@
 const request = require('../helper/request')
 const wait = require('../helper/wait');
+const cleanText = require('../helper/cleanText');
 
 const endPointUrl = '2/tweets/search/all'
 
@@ -7,10 +8,11 @@ describe(endPointUrl + ' endpoint', () => {
 
   describe('Positive Test', () => {
     let response = {}
+    const query = 'creme brule'
 
     // NOTE: Non andrebbe fatto, ma facendo troppe richieste si rischia di ricevere 'Too Many request'
     beforeAll(async () => {
-      response = await request.assertApiRequest(endPointUrl, {query: 'novax'})
+      response = await request.assertApiRequest(endPointUrl, {query: query})
     })
 
     it('It should return 200 as status code when the request is correct', () => {
@@ -26,6 +28,13 @@ describe(endPointUrl + ' endpoint', () => {
       response.body.data.forEach((elem) => {
         expect(elem).toHaveProperty('id')
         expect(elem).toHaveProperty('text')
+      })
+    })
+    it('Each tweet must either contain the query or be cut', () => {
+      response.body.data.forEach((elem) => {
+        if(!elem.text.includes('…')){
+          expect(cleanText(elem.text)).toContain(cleanText(query))
+        }
       })
     })
   })

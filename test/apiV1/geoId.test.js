@@ -7,7 +7,7 @@ const geoID = '0a63908f39d63000'
 describe(endPointUrl + ' endpoint', () => {
   describe('Positive Test', () => {
     it('It should return 200 when the request is made correctly', async () => {
-      await request.assertApiRequest(endPointUrl + geoID, {}, {expectedStatus: 200});
+      const ret = await request.assertApiRequest(endPointUrl + geoID, {}, {expectedStatus: 200});
     })
 
     it('It should return an object', async () => {
@@ -20,6 +20,10 @@ describe(endPointUrl + ' endpoint', () => {
       expect(body).toHaveProperty('name')
       expect(body).toHaveProperty('country')
       expect(body).toHaveProperty('id')
+    })
+
+    it('The id returned must match the geoID passed as query', async () => {
+      const {body} = await request.assertApiRequest(endPointUrl + geoID, {});
       expect(body.id).toBe(geoID)
     })
   })

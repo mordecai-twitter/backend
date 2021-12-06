@@ -9,7 +9,7 @@ node {
     }
   }
   stage('Test') {
-    sh "cp /home/andrea/Desktop/Ingegneria del Software/mordecai/backend_mordecai/.env ./"
+    sh "cp /home/andrea/Desktop/Ingegneria\ del\ Software/mordecai/backend_mordecai/.env ./"
     sh "ls -l"
     try {
       sh "npm install --save"

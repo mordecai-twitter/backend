@@ -348,4 +348,15 @@ router.get('/contest', async (req, res) => {
   }
 })
 
+router.get('/trivia', async (req, res) => {
+  const { query, ...parameters } = req.query
+  try {
+    const all = await twitter.v2.search(query, { ...parameters })
+    await all.fetchLast(10000)
+    res.status(200).json(all._realData)
+  } catch (err) {
+    handleError(err, res)
+  }
+})
+
 module.exports = router

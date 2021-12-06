@@ -2,13 +2,8 @@ node {
   stage('SCM') {
     checkout scm
   }
-  stage('SonarQube Analysis') {
-    def scannerHome = tool 'SonarQubeMordecai';
-    withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner"
-    }
-  }
   stage('Test') {
+    sh "pwd"
     sh "cp /home/andrea/Desktop/Ingegneria/backend_mordecai/.env ./"
     sh "ls -l"
     try {

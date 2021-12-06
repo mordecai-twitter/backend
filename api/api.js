@@ -308,26 +308,29 @@ router.get('/stream', async (req, res) => {
     }
 
     console.log('Processed query:', renamedQuery);
-
-    const stream = await secondaryTwitter.v1.filterStream(
+    try{
+      const stream = await secondaryTwitter.v1.filterStream(
         renamedQuery
-    );
+      );
 
-    stream.on(ETwitterStreamEvent.Data, (tweet) => {
-      if (!locations || (tweet.coordinates || tweet.place)) {
-        res.write(JSON.stringify(tweet))
-      }
-    })
+      stream.on(ETwitterStreamEvent.Data, (tweet) => {
+        if (!locations || (tweet.coordinates || tweet.place)) {
+          res.write(JSON.stringify(tweet))
+        }
+      })
 
-    stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
-    stream.on(
-      ETwitterStreamEvent.ConnectionClosed,
-      () => res.end()
-    );
+      stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
+      stream.on(
+        ETwitterStreamEvent.ConnectionClosed,
+        () => res.end()
+      );
 
-    req.on('close', () => {
-      stream.close();
-    });
+      req.on('close', () => {
+        stream.close();
+      });
+    } catch (e) {
+      console.error(e)
+    }
 })
 
 router.get('/contest', async (req, res) => {

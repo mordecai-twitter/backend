@@ -8,7 +8,7 @@ describe(endPointUrl + ' endpoint', () => {
 
   describe('Positive Test', () => {
     let response = {}
-    const query = 'creme brule'
+    const query = 'novax'
 
     // NOTE: Non andrebbe fatto, ma facendo troppe richieste si rischia di ricevere 'Too Many request'
     beforeAll(async () => {

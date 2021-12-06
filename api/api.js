@@ -322,10 +322,14 @@ router.get('/stream', async (req, res) => {
       stream.on(ETwitterStreamEvent.Connected, () => console.log('Stream is started.'));
       stream.on(
         ETwitterStreamEvent.ConnectionClosed,
-        () => res.end()
+        () => {
+          console.log('Stream closed')
+          res.end()
+        }
       );
 
       req.on('close', () => {
+        console.log('Stream closed')
         stream.close();
       });
     } catch (e) {

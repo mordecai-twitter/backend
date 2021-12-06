@@ -3,8 +3,8 @@ node {
     checkout scm
   }
   stage('Test') {
-    sh "pwd"
-    sh "cp /home/andrea/Desktop/Ingegneria/backend_mordecai/.env ./"
+    sh "ssh-keyscan -H azucena.cs.unibo.it >> ~/.ssh/known_hosts"
+    sh "scp andrea.zecca3@azucena.cs.unibo.it:/home/web/site202137/html/.env ./"
     sh "ls -l"
     try {
       sh "npm install --save"

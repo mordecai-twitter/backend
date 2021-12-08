@@ -307,6 +307,10 @@ router.get('/stream', async (req, res) => {
       renamedQuery.track = regExReduced;
     }
 
+    const interval = setInterval(async () => {
+      res.write(JSON.stringify({ type: 'keep-alive' }))
+    }, 5000)
+
     console.log('Processed query:', renamedQuery);
     try{
       const stream = await secondaryTwitter.v1.filterStream(
@@ -323,6 +327,7 @@ router.get('/stream', async (req, res) => {
       stream.on(
         ETwitterStreamEvent.ConnectionClosed,
         () => {
+          clearInterval(interval)
           console.log('Stream closed')
           res.end()
         }

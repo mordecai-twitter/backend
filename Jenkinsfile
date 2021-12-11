@@ -2,12 +2,6 @@ node {
   stage('SCM') {
     checkout scm
   }
-  stage('SonarQube Analysis') {
-    def scannerHome = tool 'SonarQubeMordecai';
-    withSonarQubeEnv() {
-      sh "${scannerHome}/bin/sonar-scanner"
-    }
-  }
   stage('Test') {
     sh "ssh-keyscan -H azucena.cs.unibo.it >> ~/.ssh/known_hosts"
     sh "scp andrea.zecca3@azucena.cs.unibo.it:/home/web/site202137/html/.env ./"
@@ -25,6 +19,12 @@ node {
       sh "npm test"
     }   catch (err) {
         echo "Failed: ${err}"
+    }
+  }
+  stage('SonarQube Analysis') {
+    def scannerHome = tool 'SonarQubeMordecai';
+    withSonarQubeEnv() {
+      sh "${scannerHome}/bin/sonar-scanner"
     }
   }
   stage('Deploy') {

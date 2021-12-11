@@ -25,7 +25,8 @@
     "supertest": "^6.1.6"
   },
   "jest": {
-   "testResultsProcessor": "jest-sonar-reporter",
+    "coverageDirectory": "coverage",
+    "testResultsProcessor": "jest-sonar-reporter",
     "testEnvironment": "node",
     "coveragePathIgnorePatterns": [
       "/node_modules/"

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testExecutions version="1">
+  <file path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/apiV2/tweetsCountsRecent.test.js">
+    <testCase name="2/tweets/counts/recent endpoint Positive Test It should return 200 as status code when the request is correct" duration="2"/>
+    <testCase name="2/tweets/counts/recent endpoint Positive Test It should return an object containing a property data which should be an array" duration="3"/>
+    <testCase name="2/tweets/counts/recent endpoint Positive Test Each entry of data should contain a end date, start date and tweet_count property" duration="201"/>
+    <testCase name="2/tweets/counts/recent endpoint Negative Test It should return 500 as status code when the request is made incorrectly" duration="202"/>
+  </file>
+  <file path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/apiV1/userTimeline.test.js">
+    <testCase name="statuses/user_timeline endpoint Positive Test It should return 200 as status code when the request is correct" duration="2"/>
+    <testCase name="statuses/user_timeline endpoint Positive Test It should return an array" duration="2"/>
+    <testCase name="statuses/user_timeline endpoint Positive Test Each object should be a tweet information, containing various property such as text, id, created_at" duration="40"/>
+    <testCase name="statuses/user_timeline endpoint Positive Test Each tweet must be created by the user of the query" duration="3"/>
+    <testCase name="statuses/user_timeline endpoint Negative Test It should return 500 as status code when the request is made incorrectly" duration="205"/>
+  </file>
+  <file path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/apiV1/searchTweets.test.js">
+    <testCase name="/search/tweets endpoint Positive Test It should return 200 as status code when the request is correct" duration="3"/>
+    <testCase name="/search/tweets endpoint Positive Test It should return an object" duration="1"/>
+    <testCase name="/search/tweets endpoint Positive Test The object return should contain a statuses property containing each tweet information" duration="2"/>
+    <testCase name="/search/tweets endpoint Positive Test Each tweet must contain a text and id property" duration="14"/>
+    <testCase name="/search/tweets endpoint Positive Test Each tweet must either contain the query or be cut" duration="4"/>
+    <testCase name="/search/tweets endpoint Negative test It should return 500 as status code when the request is made incorrectly" duration="205"/>
+  </file>
+  <file path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/apiV1/geoId.test.js">
+    <testCase name="/geo/id/ endpoint Positive Test It should return 200 when the request is made correctly" duration="319"/>
+    <testCase name="/geo/id/ endpoint Positive Test It should return an object" duration="216"/>
+    <testCase name="/geo/id/ endpoint Positive Test The object should contain information about the place such as a name, a country, an id" duration="209"/>
+    <testCase name="/geo/id/ endpoint Positive Test The id returned must match the geoID passed as query" duration="197"/>
+    <testCase name="/geo/id/ endpoint Negative Test It should return 404 as status code when the id of the geo is not valid" duration="218"/>
+  </file>
+  <file path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/apiV2/user.test.js">
+    <testCase name="2/user/ endpoint Positive Test It should return 200 as status code when the request is correct" duration="1"/>
+    <testCase name="2/user/ endpoint Positive Test It should return an object containing a info abou the user" duration="1"/>
+    <testCase name="2/user/ endpoint Positive Test It should return the data about the user of the query" duration="1"/>
+    <testCase name="2/user/ endpoint Negative Test It should return 500 as status code when the user is is not valid" duration="228"/>
+  </file>
+  <file path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/apiCustom/termCloud.test.js">
+    <testCase name="/termcloud endpoint Positive test It should return a status code of 200 if the request is made correctly" duration="1"/>
+    <testCase name="/termcloud endpoint Positive test It should return an non-empty array" duration="2"/>
+    <testCase name="/termcloud endpoint Positive test It should return an array of object each containing word and freq" duration="23"/>
+    <testCase name="/termcloud endpoint Positive test Each freq property should have a positive value" duration="4"/>
+    <testCase name="/termcloud endpoint Positive test Each word must not be empty" duration="6"/>
+    <testCase name="/termcloud endpoint Negative test It should return a status code of 500 if no query is inserted in the request" duration="205"/>
+  </file>
+  <file path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/apiV2/tweetsSearchAll.test.js">
+    <testCase name="2/tweets/search/all endpoint Positive Test It should return 200 as status code when the request is correct" duration="2"/>
+    <testCase name="2/tweets/search/all endpoint Positive Test It should return an object" duration="2"/>
+    <testCase name="2/tweets/search/all endpoint Positive Test The object return should contain a data property containing each tweet information" duration="3"/>
+    <testCase name="2/tweets/search/all endpoint Positive Test Each tweet must contain a text and id property" duration="19"/>
+    <testCase name="2/tweets/search/all endpoint Positive Test Each tweet must either contain the query or be cut" duration="8"/>
+    <testCase name="2/tweets/search/all endpoint Negative test It should return 500 as status code when the request is not correct" duration="1733"/>
+  </file>
+  <file path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/apiCustom/sentiment.test.js">
+    <testCase name="/sentiment endpoint Positive test It should return a status code of 200 if the request is made correctly" duration="1"/>
+    <testCase name="/sentiment endpoint Positive test It should return an object containing various property" duration="6"/>
+    <testCase name="/sentiment endpoint Positive test Each count (positive, negative, neutral) should be a positive integer" duration="1"/>
+    <testCase name="/sentiment endpoint Positive test Best and worst property should contain a tweet information and score information" duration="2"/>
+    <testCase name="/sentiment endpoint Negative Test It should return 500 as status code when the request is made incorrectly" duration="241"/>
+  </file>
+</testExecutions>

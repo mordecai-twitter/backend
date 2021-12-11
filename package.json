@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon server.js",
     "test": "jest --coverage"
+    "serve": "nodemon server.js",
   },
   "author": "",
   "license": "ISC",

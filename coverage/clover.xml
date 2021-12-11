@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1639225561637" clover="3.2.0">
-  <project timestamp="1639225561638" name="All files">
+<coverage generated="1639232520454" clover="3.2.0">
+  <project timestamp="1639232520455" name="All files">
     <metrics statements="236" coveredstatements="161" conditionals="53" coveredconditionals="26" methods="42" coveredmethods="27" elements="331" coveredelements="214" complexity="0" loc="236" ncloc="236" packages="3" files="5" classes="5"/>
     <package name="backend_mordecai">
       <metrics statements="18" coveredstatements="13" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
@@ -105,26 +105,26 @@
         <line num="135" count="2" type="stmt"/>
         <line num="136" count="2" type="stmt"/>
         <line num="137" count="2" type="stmt"/>
-        <line num="161" count="109" type="stmt"/>
-        <line num="162" count="109" type="stmt"/>
-        <line num="163" count="109" type="stmt"/>
-        <line num="164" count="109" type="stmt"/>
-        <line num="165" count="109" type="stmt"/>
-        <line num="166" count="109" type="cond" truecount="3" falsecount="0"/>
-        <line num="168" count="32" type="stmt"/>
-        <line num="169" count="32" type="stmt"/>
-        <line num="171" count="61" type="stmt"/>
-        <line num="172" count="61" type="stmt"/>
-        <line num="174" count="16" type="stmt"/>
-        <line num="175" count="16" type="stmt"/>
-        <line num="177" count="109" type="stmt"/>
-        <line num="178" count="109" type="cond" truecount="2" falsecount="0"/>
-        <line num="179" count="3" type="stmt"/>
-        <line num="180" count="3" type="stmt"/>
-        <line num="182" count="106" type="cond" truecount="2" falsecount="0"/>
-        <line num="183" count="5" type="stmt"/>
-        <line num="184" count="5" type="stmt"/>
-        <line num="186" count="109" type="stmt"/>
+        <line num="161" count="107" type="stmt"/>
+        <line num="162" count="107" type="stmt"/>
+        <line num="163" count="107" type="stmt"/>
+        <line num="164" count="107" type="stmt"/>
+        <line num="165" count="107" type="stmt"/>
+        <line num="166" count="107" type="cond" truecount="3" falsecount="0"/>
+        <line num="168" count="42" type="stmt"/>
+        <line num="169" count="42" type="stmt"/>
+        <line num="171" count="47" type="stmt"/>
+        <line num="172" count="47" type="stmt"/>
+        <line num="174" count="18" type="stmt"/>
+        <line num="175" count="18" type="stmt"/>
+        <line num="177" count="107" type="stmt"/>
+        <line num="178" count="107" type="cond" truecount="2" falsecount="0"/>
+        <line num="179" count="7" type="stmt"/>
+        <line num="180" count="7" type="stmt"/>
+        <line num="182" count="100" type="cond" truecount="2" falsecount="0"/>
+        <line num="183" count="4" type="stmt"/>
+        <line num="184" count="4" type="stmt"/>
+        <line num="186" count="107" type="stmt"/>
         <line num="192" count="0" type="stmt"/>
         <line num="195" count="2" type="stmt"/>
         <line num="196" count="2" type="stmt"/>
@@ -140,16 +140,16 @@
         <line num="212" count="2" type="stmt"/>
         <line num="213" count="2" type="stmt"/>
         <line num="214" count="2" type="stmt"/>
-        <line num="218" count="5212" type="stmt"/>
-        <line num="222" count="5212" type="stmt"/>
+        <line num="218" count="5000" type="stmt"/>
+        <line num="222" count="5000" type="stmt"/>
         <line num="227" count="1" type="stmt"/>
         <line num="228" count="1" type="stmt"/>
-        <line num="229" count="3111" type="cond" truecount="2" falsecount="0"/>
+        <line num="229" count="2947" type="cond" truecount="2" falsecount="0"/>
         <line num="231" count="1" type="stmt"/>
         <line num="236" count="1" type="stmt"/>
-        <line num="237" count="1624" type="stmt"/>
+        <line num="237" count="1499" type="stmt"/>
         <line num="241" count="1" type="stmt"/>
-        <line num="242" count="7796" type="stmt"/>
+        <line num="242" count="7208" type="stmt"/>
         <line num="244" count="1" type="stmt"/>
         <line num="246" count="1" type="stmt"/>
         <line num="247" count="1" type="stmt"/>
@@ -162,7 +162,7 @@
         <line num="264" count="210" type="stmt"/>
         <line num="265" count="210" type="stmt"/>
         <line num="266" count="1" type="stmt"/>
-        <line num="267" count="5212" type="cond" truecount="2" falsecount="0"/>
+        <line num="267" count="5000" type="cond" truecount="2" falsecount="0"/>
         <line num="268" count="1" type="stmt"/>
         <line num="269" count="1" type="stmt"/>
         <line num="270" count="1" type="stmt"/>
@@ -226,8 +226,8 @@
       <file name="cleanText.js" path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/helper/cleanText.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="2" type="stmt"/>
-        <line num="4" count="22" type="stmt"/>
-        <line num="5" count="22" type="stmt"/>
+        <line num="4" count="16" type="stmt"/>
+        <line num="5" count="16" type="stmt"/>
         <line num="8" count="2" type="stmt"/>
       </file>
       <file name="request.js" path="/home/andrea/Desktop/Ingegneria/mordecai/backend_mordecai/test/helper/request.js">

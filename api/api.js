@@ -137,8 +137,6 @@ router.get('/sentiment', async (req, res) => {
   let valutation = {
     score: 0,
     comparative: 0,
-    // positive: [],
-    // negative: [],
     best: {
       score: -Infinity,
       tweet: {}
@@ -225,8 +223,8 @@ router.get('/termcloud', async (req, res) => {
 
   function calculateWordsFrequency(words){
     const wordCounts = {};
-    for(let i = 0; i < words.length; i++){
-      wordCounts[words[i]] = (wordCounts[words[i]] || 0) + 1
+    for(const word of words){
+      wordCounts[word] = (wordCounts[word] || 0) + 1
     }
     return wordCounts
   }
@@ -342,26 +340,23 @@ router.get('/stream', async (req, res) => {
     }
 })
 
-router.get('/contest', async (req, res) => {
+async function fetchLastTweet(req, res, count) {
   const { query, ...parameters } = req.query
   try {
     const all = await twitter.v2.search(query, { ...parameters })
-    await all.fetchLast(10000)
+    await all.fetchLast(count)
     res.status(200).json(all._realData)
   } catch (err) {
     handleError(err, res)
   }
+}
+
+router.get('/contest', async (req, res) => {
+  await fetchLastTweet(req, res, 10000)
 })
 
 router.get('/trivia', async (req, res) => {
-  const { query, ...parameters } = req.query
-  try {
-    const all = await twitter.v2.search(query, { ...parameters })
-    await all.fetchLast(10000)
-    res.status(200).json(all._realData)
-  } catch (err) {
-    handleError(err, res)
-  }
+  await fetchLastTweet(req, res, 10000)
 })
 
 module.exports = router

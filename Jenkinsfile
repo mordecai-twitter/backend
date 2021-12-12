@@ -11,7 +11,7 @@ node {
         echo "Failed: ${err}"
     }
     try {
-      sh "yarn install"
+      sh "yarn install --save"
     } catch (err) {
         echo "Failed: ${err}"
     }

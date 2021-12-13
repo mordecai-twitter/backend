@@ -3,8 +3,18 @@ node {
     checkout scm
   }
   stage('Test') {
-    sh "ssh-keyscan -H azucena.cs.unibo.it >> ~/.ssh/known_hosts"
-    sh "scp andrea.zecca3@azucena.cs.unibo.it:/home/web/site202137/html/.env ./"
+    try {
+      sh "ssh-keyscan -H azucena.cs.unibo.it >> ~/.ssh/known_hosts"
+      sh "scp andrea.zecca3@azucena.cs.unibo.it:/home/web/site202137/html/.env ./"
+    } catch (err1) {
+      try {
+        sh "ssh-keyscan -H marullo.cs.unibo.it >> ~/.ssh/known_hosts"
+        sh "scp andrea.zecca3@marullo.cs.unibo.it:/home/web/site202137/html/.env ./"
+      } catch (err2) {
+        sh "ssh-keyscan -H ines.cs.unibo.it >> ~/.ssh/known_hosts"
+        sh "scp andrea.zecca3@ines.cs.unibo.it:/home/web/site202137/html/.env ./"
+      }
+    }
     try {
       sh "npm install --save"
     } catch (err) {

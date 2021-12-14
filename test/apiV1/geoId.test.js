@@ -29,7 +29,7 @@ describe(endPointUrl + ' endpoint', () => {
   })
 
   describe('Negative Test', () => {
-    it('It should return 404 as status code when the id of the geo is not valid', async () => {
+    it('It should return 500 as status code when the id of the geo is not valid', async () => {
       await request.assertApiRequest(endPointUrl + 'aaa', {}, {expectedStatus: 500});
     })
   })

@@ -336,7 +336,8 @@ router.get('/stream', async (req, res) => {
         stream.close();
       });
     } catch (e) {
-      console.error(e)
+      clearInterval(interval)
+      handleError(e, res)
     }
 })
 

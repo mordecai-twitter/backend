@@ -344,7 +344,7 @@ router.get('/stream', async (req, res) => {
 async function fetchLastTweet(req, res, count) {
   const { query, ...parameters } = req.query
   try {
-    const all = await twitter.v2.search(query, { ...parameters })
+    const all = await twitter.v2.searchAll(query, { ...parameters })
     await all.fetchLast(count)
     res.status(200).json(all._realData)
   } catch (err) {

@@ -315,8 +315,11 @@ router.get('/stream', async (req, res) => {
         renamedQuery
       );
 
-      stream.on(ETwitterStreamEvent.Data, (tweet) => {
+      stream.on(ETwitterStreamEvent.Data, async (tweet) => {
         if (!locations || (tweet.coordinates || tweet.place)) {
+          if (tweet.truncated) {
+            tweet = await twitter.v2.singleTweet(tweet.id_str);
+          }
           res.write(JSON.stringify(tweet))
         }
       })

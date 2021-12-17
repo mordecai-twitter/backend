@@ -318,7 +318,7 @@ router.get('/stream', async (req, res) => {
       stream.on(ETwitterStreamEvent.Data, async (tweet) => {
         if (!locations || (tweet.coordinates || tweet.place)) {
           if (tweet.truncated) {
-            tweet = await twitter.v2.singleTweet(tweet.id_str);
+            tweet = await twitter.v2.singleTweet(tweet.id_str, { 'tweet.fields': 'author_id' });
           }
           res.write(JSON.stringify(tweet))
         }
